@@ -15,7 +15,7 @@ Run `python3 -m http.server 5174 --bind 127.0.0.1 --directory dist` from this di
 
 Uploaded spaces receive no sample dimensions or automatically identified obstacles. Replacing an existing photo clears its measurements and boundaries. Inch/centimeter display uses canonical millimeters to avoid round-trip drift. Editing a measurement clears its confirmation.
 
-The original image is a separate, unchanged layer beneath SVG annotations. The prepared after-design image is a static visual reference, clearly separate from the live schematic. Uploaded images and saved concepts stay in browser IndexedDB; there is no photo analysis or server submission.
+The original image is a separate, unchanged layer beneath SVG annotations. The supplied finished-design image is a static visual reference, clearly separate from the live schematic. Uploaded images and saved concepts stay in browser IndexedDB; there is no photo analysis or server submission.
 
 ## Implementation
 
@@ -30,7 +30,7 @@ This is a private concept prototype, not an operational checkout or manufacturin
 
 A proposed first offering is guided configuration, followed by human fit review and a storage kit. Before orders open, define materials, clearances, removable/split panels and assembly, supports and loads, tolerances, pricing, lead times, delivery regions, returns, and fulfillment. Quotes, accounts, payments, and orders are not connected.
 
-Asset provenance is in `ASSETS.md`. The editorial storage concept is AI-generated. The before photo and prepared after-design reference were supplied by the user.
+Asset provenance is in `ASSETS.md`. The editorial storage concept is AI-generated. The before photo, earlier configuration screenshot, and final finished-design reference were supplied by the user.
 
 ## Validation
 

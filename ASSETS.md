@@ -3,9 +3,10 @@
 ## User-supplied before and after
 
 - Before: `dist/assets/under-sink-before.png`, copied unchanged from `codex-clipboard-5d271ccf-55ea-4bc7-89cf-2d1895bb17b2.png` (1254 × 1254).
-- After: `dist/assets/under-sink-after-preview.png`, copied unchanged from `codex-clipboard-ed0a6094-847b-4883-87f5-f887b06ecc86.png` (1536 × 1024).
-- Supplied and identified as before/after by the user. The after asset is a design-preview screenshot, not a verified installation photo.
-- The comparison section frames the relevant photo region using CSS. Selecting either image opens the full original. No image pixels were modified, and no new imagery was generated for this update.
+- Earlier configuration preview: `dist/assets/under-sink-after-preview.png`, copied unchanged from `codex-clipboard-ed0a6094-847b-4883-87f5-f887b06ecc86.png` (1536 × 1024).
+- Finished design: `dist/assets/under-sink-finished.png`, copied unchanged from `codex-clipboard-8bde364f-998f-4e5f-9cc2-b7b87b26e851.png` (1254 × 1254), supplied subsequently as the final result. Featured in the hero, before/after comparison, and full-image viewer. The earlier configuration screenshot is retained as a source reference.
+- The new image is a supplied finished-design reference; physical manufacture or installation has not been verified.
+- The hero and comparison show the complete square before and finished-design images. Selecting a comparison image opens its full original. Image pixels were not modified, and no new imagery was generated for this update.
 
 ## under-sink-concept.png
 
@@ -13,7 +14,7 @@
 - Website asset: `dist/assets/under-sink-concept.jpg` (JPEG export of the master, quality 86)
 - Created: 2026-10-11
 - Tool: built-in `image_gen` (generation plus one targeted edit).
-- Use: SpaceMax editorial homepage hero. AI-generated product concept, not a photo of a manufactured product.
+- Use: SpaceMax editorial under-sink collection card. AI-generated product concept, not a photo of a manufactured product.
 - Final source: `/Users/mac/.codex/generated_images/01a12c7b-922d-73f0-9a33-2f356cb7a306/exec-c4e39e0e-cc7a-432b-87d2-70956fe70d71.png`
 - Visual inspection: warm oak cabinet, off-white fitted shelves, open maintenance gap around white basin drain, neutral organized accessories; no text, logo, or watermark. Final image inspected after correcting a disconnected drain segment in the first generation.
 
