@@ -479,27 +479,82 @@
     $('#brief-summary').replaceChildren();
     showInput();
   });
-  const comparisonStates = {
-    before: {src: 'assets/under-sink-before.jpg', alt: 'Illustrative cabinet without fitted shelves: pipes occupy the middle, essentials cluster on the floor, and the upper space is unused', title: 'Space above. Clutter below.', detail: 'One cabinet floor has to hold everything.'},
-    after: {src: 'assets/under-sink-concept.jpg', alt: 'The same cabinet illustrated with custom-fit shelves around the plumbing and essentials on separate levels', title: 'Same cabinet. A more useful layout.', detail: 'Shelves create places for essentials around the pipes.'}
-  };
-  $$('[data-compare]').forEach(button => button.addEventListener('click', () => {
-    const state = comparisonStates[button.dataset.compare];
-    const image = $('#comparison-image');
-    image.src = state.src;
-    image.alt = state.alt;
-    $('#comparison-caption strong').textContent = state.title;
-    $('#comparison-caption span').textContent = state.detail;
-    $$('[data-compare]').forEach(option => {
-      const selected = option === button;
-      option.classList.toggle('active', selected);
-      option.setAttribute('aria-pressed', String(selected));
+  const walkthroughSteps = [
+    {
+      src: 'assets/bathroom-step-1-original.png',
+      alt: 'Starting bathroom space with plumbing, supplies, and unused space for storage',
+      width: 1254, height: 1254,
+      title: 'Start with your space.',
+      copy: 'Pipes, supplies, and unused space make it hard to keep everyday essentials in order.',
+      tag: 'Starting space'
+    },
+    {
+      src: 'assets/bathroom-step-2-measurements.png',
+      alt: 'Measurement concept showing estimated width, height, and storage gaps; depth still needs measuring',
+      width: 1536, height: 1024,
+      title: 'Check the measurements.',
+      copy: 'Check the width, height, and storage gaps. The dimensions shown here are estimates; depth still needs measuring.',
+      tag: 'Measurement concept'
+    },
+    {
+      src: 'assets/bathroom-step-3-configuration.png',
+      alt: 'Configuration concept with fitted dividers, drawers, and a service cover around the plumbing',
+      width: 1536, height: 1024,
+      title: 'Preview the fit.',
+      copy: 'Explore a layout that fits around the plumbing, with dividers, drawers, and a service cover.',
+      tag: 'Configuration concept'
+    },
+    {
+      src: 'assets/bathroom-step-4-cabinet-only.png',
+      alt: 'Styled bathroom storage concept with fitted compartments and a coordinated cabinet interior',
+      width: 1254, height: 1254,
+      title: 'Put everything in its place.',
+      copy: 'Give each essential a place with fitted compartments and a calm, coordinated cabinet interior.',
+      tag: 'Styled outcome concept'
+    }
+  ];
+  const walkthroughButtons = $$('[data-walkthrough-step]');
+  const walkthroughImages = [$('#walkthrough-image'), $('#walkthrough-large-image')];
+  let walkthroughIndex = 0;
+  function showWalkthroughStep(index) {
+    if (!Number.isInteger(index) || index < 0 || index >= walkthroughSteps.length) return;
+    walkthroughIndex = index;
+    const step = walkthroughSteps[index];
+    walkthroughImages.forEach(image => {
+      image.width = step.width;
+      image.height = step.height;
+      image.src = step.src;
+      image.alt = step.alt;
     });
+    $('#walkthrough-status').textContent = `Step ${index + 1} of ${walkthroughSteps.length}`;
+    $('#walkthrough-title').textContent = step.title;
+    $('#walkthrough-copy').textContent = step.copy;
+    $('#walkthrough-tag').textContent = step.tag;
+    $('#walkthrough-large-caption').textContent = `Step ${index + 1} · ${step.title} · ${step.tag}`;
+    $('#walkthrough-prev').disabled = index === 0;
+    $('#walkthrough-next').disabled = index === walkthroughSteps.length - 1;
+    walkthroughButtons.forEach(button => {
+      const selected = Number(button.dataset.walkthroughStep) === index;
+      button.classList.toggle('active', selected);
+      button.setAttribute('aria-pressed', String(selected));
+    });
+  }
+  walkthroughImages.forEach(image => image.addEventListener('load', () => {
+    if (image.naturalWidth && image.naturalHeight) {
+      image.width = image.naturalWidth;
+      image.height = image.naturalHeight;
+    }
   }));
+  walkthroughButtons.forEach(button => button.addEventListener('click', () => showWalkthroughStep(Number(button.dataset.walkthroughStep))));
+  $('#walkthrough-prev').addEventListener('click', () => showWalkthroughStep(walkthroughIndex - 1));
+  $('#walkthrough-next').addEventListener('click', () => showWalkthroughStep(walkthroughIndex + 1));
+  const enlargeWalkthrough = $('#walkthrough-enlarge');
+  enlargeWalkthrough.addEventListener('click', () => openDialog($('#walkthrough-viewer'), enlargeWalkthrough));
   // Keep links from the earlier single-product preview useful.
   if (location.hash === '#product') location.replace('#solutions');
   $('#year').textContent = new Date().getFullYear();
   buildRoomFilters();
   renderBrowse();
   switchProject({...browse, space: ''});
+  showWalkthroughStep(0);
 })();

@@ -32,3 +32,7 @@ Additional illustrative product images and exact generation prompts are document
 ## Residential and commercial browsing
 
 The site now offers two browse paths. Residential rooms are Bathroom, Kitchen, Living room, and Bedroom. Commercial areas are Offices & workstations, Staff kitchens, Restrooms, and Guest rooms. Room selection filters the existing product range; commercial restroom recommendations focus on storage. The planner records the audience and room/area, keeping dimensions separate for each audience + room + solution combination. This does not assert commercial certifications, installation services, or confirmed site suitability.
+
+## Supplied bathroom walkthrough
+
+The four-step design walkthrough uses the owner's starting photo, measurement concept screen, configuration concept screen, and an edited outcome reference. Steps have keyboard-accessible navigation and a full-image viewer. Example measurements never populate the visitor's manual planner. See `BATHROOM-WALKTHROUGH.md` and `BATHROOM-FINAL-ASSET.md` for source mapping, the cabinet-only edit constraint, and provenance.
