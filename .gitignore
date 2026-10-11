@@ -1,4 +1,22 @@
+# macOS and editor files
 .DS_Store
-*.tar.gz
+._*
+*.swp
+*.swo
+
+# Local credentials and environment overrides
+.env
+.env.*
+!.env.example
+!.env.sample
+*.pem
+*.key
+
+# Reproducible deployment bundles and local preview state
 *.tar
+*.tar.gz
 .sites-local/
+.preview.pid
+node_modules/
+
+# dist/ contains the editable static sites and must remain tracked.

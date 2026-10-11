@@ -1,0 +1,1202 @@
+/* The planning workspace is deliberately scoped to its dialog. */
+dialog.configurator {
+  --cfg-paper: #fbfaf6;
+  --cfg-soft: #f0f1e9;
+  --cfg-border: #d8ddcf;
+  --cfg-muted: #64705f;
+  --cfg-accent: #3b5947;
+  --cfg-blue: #5687a5;
+  width: min(1240px, calc(100% - 32px));
+  height: min(880px, 94dvh);
+  max-width: none;
+  max-height: 94dvh;
+  margin: auto;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #ffffff90;
+  border-radius: 14px;
+  background: var(--cfg-paper);
+  color: var(--ink);
+  box-shadow: 0 32px 110px #17281d55;
+}
+
+.configurator::backdrop {
+  background: #182b23ad;
+  backdrop-filter: blur(7px);
+}
+
+.configurator .cfg-shell {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+.configurator .cfg-top {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 23px 30px 22px;
+}
+
+.configurator .cfg-top .eyebrow {
+  margin: 0 0 6px;
+  color: var(--cfg-muted);
+  font-size: 10px;
+  letter-spacing: .13em;
+}
+
+.configurator .cfg-top h2 {
+  font-size: clamp(29px, 3vw, 36px);
+  line-height: 1.12;
+  letter-spacing: -.045em;
+}
+
+.configurator .cfg-top-actions {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 18px;
+}
+
+.configurator .cfg-top-actions .plain-button {
+  min-height: 42px;
+  font-size: 12px;
+  color: var(--cfg-muted);
+}
+
+.configurator .cfg-top-actions .icon-button {
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--cfg-border);
+  border-radius: 50%;
+  font-size: 25px;
+}
+
+.configurator .cfg-stepper {
+  display: grid;
+  flex: none;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  margin: 0;
+  padding: 13px 30px;
+  border-block: 1px solid #e2dfd9;
+  list-style: none;
+  background: #fbfaf8;
+}
+
+.configurator .cfg-stepper li {
+  min-width: 0;
+}
+
+.configurator .cfg-stepper button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 13px;
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 4px 0;
+  border: 0;
+  background: transparent;
+  color: #b9b6b1;
+  font-size: 14px;
+  line-height: 1.4;
+  font-weight: 400;
+  text-align: left;
+}
+
+.configurator .cfg-stepper button > span:first-child {
+  display: grid;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 1px solid #e8e5df;
+  border-radius: 50%;
+  font-size: 15px;
+  line-height: 1;
+}
+
+.configurator .cfg-stepper .active button,
+.configurator .cfg-stepper button.active,
+.configurator .cfg-stepper button[aria-current="step"] {
+  color: #292824;
+}
+
+.configurator .cfg-stepper .active button > span:first-child,
+.configurator .cfg-stepper button.active > span:first-child,
+.configurator .cfg-stepper button[aria-current="step"] > span:first-child {
+  border-color: #20201e;
+  background: #20201e;
+  color: white;
+}
+
+.configurator .cfg-stepper .complete button,
+.configurator .cfg-stepper button.complete {
+  color: #595650;
+}
+
+.configurator .cfg-stepper .complete button > span:first-child,
+.configurator .cfg-stepper button.complete > span:first-child {
+  border-color: #a7a299;
+  background: transparent;
+  color: #595650;
+}
+
+.configurator .cfg-stepper button:not(:disabled):hover {
+  color: #20201e;
+}
+
+.configurator .cfg-stepper button:disabled {
+  opacity: 1;
+}
+
+.configurator .cfg-workspace {
+  display: grid;
+  flex: 1;
+  grid-template-columns: minmax(0, 1.25fr) minmax(340px, 1fr);
+  min-height: 0;
+  overflow: hidden;
+}
+
+.configurator .cfg-visual {
+  min-width: 0;
+  min-height: 0;
+  padding: 22px 24px;
+  overflow: auto;
+  overscroll-behavior: contain;
+  background: #edeFE6;
+  scrollbar-width: thin;
+  scrollbar-color: #c6cebd transparent;
+}
+
+.configurator .cfg-visual-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 34px;
+  margin-bottom: 14px;
+}
+
+.configurator .cfg-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #53634b;
+  font-size: 11px;
+  line-height: 1.35;
+  font-weight: 500;
+}
+
+.configurator .cfg-badge::before {
+  flex: none;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #789566;
+  content: '';
+}
+
+.configurator .cfg-view-toggle {
+  display: inline-flex;
+  flex: none;
+  gap: 3px;
+  padding: 3px;
+  border: 1px solid #d0d8c6;
+  border-radius: 7px;
+  background: #e5e9de;
+}
+
+.configurator .cfg-view-toggle button {
+  min-height: 32px;
+  padding: 6px 11px;
+  border-radius: 4px;
+  background: transparent;
+  color: #5f6f56;
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+.configurator .cfg-view-toggle button[aria-pressed="true"] {
+  background: #fffefb;
+  color: var(--ink);
+  box-shadow: 0 1px 4px #24331a12;
+}
+
+.configurator .cfg-view-toggle button:not([aria-pressed="true"]):hover {
+  background: #dce3d2;
+}
+
+.configurator .cfg-stage {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  min-width: 0;
+  height: auto;
+  margin-inline: auto;
+  overflow: hidden;
+  border: 1px solid #d1d5c8;
+  border-radius: 8px;
+  background: #e1e5d9;
+  box-shadow: 0 8px 25px #31442c08;
+}
+
+.configurator #cfg-photo {
+  display: block;
+  position: static;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  max-height: none;
+  object-fit: contain;
+}
+
+.configurator #cfg-overlay {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  pointer-events: none;
+}
+
+.configurator #cfg-overlay svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.configurator #cfg-overlay [data-handle] {
+  pointer-events: auto;
+  touch-action: none;
+  cursor: grab;
+}
+
+.configurator #cfg-overlay [data-handle]:active {
+  cursor: grabbing;
+}
+
+.configurator .cfg-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 340px;
+  padding: 32px;
+  color: var(--cfg-muted);
+  text-align: center;
+  background: linear-gradient(145deg, #f4f5ee, #e3e8da);
+}
+
+.configurator .cfg-empty svg,
+.configurator .cfg-welcome svg {
+  width: 56px;
+  height: 56px;
+  stroke: #6e855d;
+  stroke-width: 1.25;
+  fill: none;
+}
+
+.configurator .cfg-empty strong,
+.configurator .cfg-empty h3 {
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 26px;
+  font-weight: 400;
+}
+
+.configurator .cfg-empty p {
+  max-width: 270px;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.configurator .cfg-caption {
+  margin-top: 12px;
+  color: var(--cfg-muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.configurator .cfg-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  margin-top: 15px;
+  padding-top: 14px;
+  border-top: 1px solid #d5dccb;
+}
+
+.configurator .cfg-legend > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #53624c;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.configurator .cfg-legend > span::before {
+  width: 10px;
+  height: 10px;
+  flex: none;
+  border: 1px solid #6e976f;
+  border-radius: 2px;
+  background: #bed3b8;
+  content: '';
+}
+
+.configurator .cfg-legend > span:nth-child(2)::before {
+  border-color: #5d96bb;
+  background: #b6d3e7;
+}
+
+.configurator .cfg-legend > span:nth-child(3)::before {
+  border-color: #b58d4d;
+  background: #ebd6a8;
+}
+
+.configurator .cfg-live-message {
+  min-height: 20px;
+  margin-top: 12px;
+  font-size: 12px;
+  line-height: 1.65;
+  color: #546f42;
+}
+
+.configurator .cfg-controls {
+  min-width: 0;
+  min-height: 0;
+  padding: 27px 28px 30px;
+  overflow: auto;
+  overscroll-behavior: contain;
+  border-left: 1px solid var(--cfg-border);
+  background: var(--cfg-paper);
+  scrollbar-width: thin;
+  scrollbar-color: #c6cebd transparent;
+}
+
+.configurator .cfg-step-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 9px;
+  margin-bottom: 10px;
+}
+
+.configurator .cfg-step-heading .eyebrow {
+  color: #6f7e63;
+  font-size: 10px;
+  line-height: 1.6;
+  letter-spacing: .1em;
+}
+
+.configurator .cfg-step-heading h3 {
+  font-family: var(--serif);
+  font-size: 28px;
+  line-height: 1.16;
+  font-weight: 400;
+  letter-spacing: -.035em;
+}
+
+.configurator .cfg-help {
+  margin: 0 0 20px;
+  color: var(--cfg-muted);
+  font-size: 13px;
+  line-height: 1.75;
+}
+
+.configurator .cfg-controls label {
+  color: var(--ink);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.configurator .cfg-controls .cfg-field {
+  display: block;
+  margin: 18px 0;
+}
+
+.configurator .cfg-unit-text {
+  margin-left: 4px;
+  color: #77866b;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.configurator .cfg-controls .cfg-toggle {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin: 18px 0;
+  padding: 12px 13px;
+  border: 1px solid var(--cfg-border);
+  border-radius: 5px;
+  background: #f0f3e9;
+  font-size: 13px;
+  line-height: 1.55;
+  cursor: pointer;
+}
+
+.configurator .cfg-controls input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]),
+.configurator .cfg-controls select,
+.configurator .cfg-controls textarea {
+  width: 100%;
+  min-width: 0;
+  min-height: 42px;
+  margin-top: 6px;
+  padding: 9px 11px;
+  border: 1px solid #bcc8b2;
+  border-radius: 5px;
+  background: #fffefa;
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.5;
+  box-shadow: 0 1px 2px #24391c03;
+}
+
+.configurator .cfg-controls textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.configurator .cfg-controls input::placeholder,
+.configurator .cfg-controls textarea::placeholder {
+  color: #7f8a77;
+}
+
+.configurator .cfg-controls input:disabled,
+.configurator .cfg-controls select:disabled {
+  background: #ecefe7;
+  color: #818a7a;
+}
+
+.configurator .cfg-controls input[type="checkbox"],
+.configurator .cfg-controls input[type="radio"] {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  margin: 2px 0 0;
+  accent-color: var(--cfg-accent);
+}
+
+.configurator .cfg-photo-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 20px 0 16px;
+}
+
+.configurator .cfg-photo-options > span {
+  color: var(--cfg-muted);
+  font-size: 12px;
+}
+
+.configurator .cfg-photo-options button {
+  min-height: 44px;
+  padding: 12px;
+  border: 1px solid #b8c6ae;
+  border-radius: 5px;
+  background: #eef2e7;
+  color: #355039;
+  font-size: 12px;
+  line-height: 1.5;
+  font-weight: 500;
+  gap: 9px;
+}
+
+.configurator .cfg-photo-options button:hover {
+  background: #e1e9d8;
+}
+
+.configurator .cfg-photo-options button[aria-pressed="true"] {
+  border-color: var(--cfg-accent);
+  box-shadow: inset 0 0 0 1px var(--cfg-accent);
+}
+
+.configurator .cfg-upload,
+.configurator .cfg-upload label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.configurator .cfg-upload {
+  width: 100%;
+  padding: 18px;
+  border: 1px dashed #a6b699;
+  border-radius: 7px;
+  background: #f3f5ed;
+  cursor: pointer;
+}
+
+.configurator .cfg-upload:hover {
+  border-color: #647b53;
+  background: #ecf0e4;
+}
+
+.configurator .cfg-upload + .cfg-help {
+  margin-top: 12px;
+  font-size: 12px;
+}
+
+.configurator .cfg-upload > span[aria-hidden] {
+  display: grid;
+  width: 33px;
+  height: 33px;
+  place-items: center;
+  border: 1px solid #c8d2bd;
+  border-radius: 5px;
+  background: #fffefa;
+  color: #5d7b4c;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.configurator .cfg-upload strong {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.configurator .cfg-upload span,
+.configurator .cfg-upload small {
+  color: var(--cfg-muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.configurator .cfg-upload input[type="file"] {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  margin-top: 4px;
+  color: var(--cfg-muted);
+  font-size: 12px;
+}
+
+.configurator .cfg-upload input[type="file"]::file-selector-button {
+  min-height: 38px;
+  margin-right: 10px;
+  padding: 7px 12px;
+  border: 1px solid #b8c6ae;
+  border-radius: 4px;
+  background: #fffefa;
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+}
+
+.configurator .cfg-choice-list {
+  display: grid;
+  gap: 10px;
+  margin: 16px 0 20px;
+}
+
+.configurator .cfg-choice-list > label {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  padding: 13px 14px;
+  border: 1px solid var(--cfg-border);
+  border-radius: 6px;
+  background: #fffefa;
+  cursor: pointer;
+}
+
+.configurator .cfg-choice-list > label:has(input:checked) {
+  border-color: #799067;
+  background: #eef2e6;
+}
+
+.configurator .cfg-choice-list strong,
+.configurator .cfg-choice-list label > span {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.configurator .cfg-choice-list small,
+.configurator .cfg-choice-list p {
+  display: block;
+  margin-top: 3px;
+  color: var(--cfg-muted);
+  font-size: 12px;
+  line-height: 1.65;
+  font-weight: 400;
+}
+
+.configurator .cfg-controls fieldset {
+  min-width: 0;
+  margin: 22px 0;
+  padding: 0;
+  border: 0;
+}
+
+.configurator .cfg-controls legend {
+  width: 100%;
+  margin-bottom: 12px;
+  color: var(--ink);
+  font-size: 13px;
+  line-height: 1.5;
+  font-weight: 600;
+}
+
+.configurator .cfg-dimension-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px 14px;
+  padding: 13px 0;
+  border-bottom: 1px solid #e0e4d8;
+}
+
+.configurator .cfg-dimension-row > label:first-child {
+  display: block;
+  grid-column: 1;
+  grid-row: 1;
+  min-width: 0;
+}
+
+.configurator .cfg-dimension-row > input[type="number"] {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  margin: 0;
+}
+
+.configurator .cfg-dimension-row > .cfg-status {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.configurator .cfg-dimension-row > .cfg-confirm {
+  grid-row: 3;
+}
+
+.configurator .cfg-dimension-row + .cfg-help {
+  margin-top: 15px;
+}
+
+.configurator .cfg-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: end;
+  gap: 5px;
+  width: max-content;
+  max-width: 135px;
+  padding: 5px 8px;
+  border: 1px solid #d6ddcc;
+  border-radius: 4px;
+  color: #6b7761;
+  background: #f0f2ea;
+  font-size: 11px;
+  line-height: 1.45;
+  text-align: center;
+}
+
+.configurator .cfg-status[data-status="confirmed"] {
+  border-color: #c0d0b2;
+  background: #e8efdf;
+  color: #3d6233;
+}
+
+.configurator .cfg-status[data-status="demo"] {
+  border-color: #e0d3b8;
+  background: #f5edda;
+  color: #806339;
+}
+
+.configurator .cfg-status[data-status="entered"] {
+  border-color: #c4d5df;
+  background: #e9f0f4;
+  color: #4a6d84;
+}
+
+.configurator .cfg-controls .cfg-confirm {
+  display: flex;
+  grid-column: 1 / -1;
+  align-items: flex-start;
+  gap: 8px;
+  width: fit-content;
+  color: var(--cfg-muted);
+  font-size: 12px;
+  line-height: 1.55;
+  cursor: pointer;
+}
+
+.configurator .cfg-units {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 7px;
+  color: var(--cfg-muted);
+  font-size: 12px;
+}
+
+.configurator .cfg-units select {
+  width: auto;
+  max-width: 78px;
+  min-width: 68px;
+  min-height: 38px;
+  margin: 0;
+  padding: 7px 8px;
+  border: 1px solid #bcc8b2;
+  border-radius: 5px;
+  background: #fffefa;
+  color: var(--ink);
+  font-size: 12px;
+}
+
+.configurator .cfg-boundary-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.configurator .cfg-boundary-fields label {
+  min-width: 0;
+  font-size: 12px;
+}
+
+.configurator .cfg-controls details {
+  margin: 18px 0;
+  padding: 0 14px;
+  border: 1px solid var(--cfg-border);
+  border-radius: 6px;
+  background: #f4f5ef;
+}
+
+.configurator .cfg-controls details summary {
+  padding: 13px 0;
+  color: var(--ink);
+  font-size: 13px;
+  line-height: 1.5;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.configurator .cfg-controls details[open] summary {
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--cfg-border);
+}
+
+.configurator .cfg-controls details > :last-child {
+  margin-bottom: 14px;
+}
+
+.configurator .cfg-controls .cfg-range-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 16px 0;
+}
+
+.configurator .cfg-number-pair {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 70px;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.configurator .cfg-controls input[type="range"] {
+  width: 100%;
+  min-width: 0;
+  min-height: 32px;
+  margin: 0;
+  accent-color: #638452;
+  cursor: pointer;
+}
+
+.configurator .cfg-controls .cfg-number-pair input[type="number"] {
+  min-height: 38px;
+  margin: 0;
+  padding-inline: 8px;
+  font-size: 13px;
+}
+
+.configurator .cfg-layout-cards {
+  display: grid;
+  gap: 10px;
+  margin: 16px 0 22px;
+}
+
+.configurator .cfg-layout-cards > label {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  gap: 3px 11px;
+  padding: 15px;
+  border: 1px solid var(--cfg-border);
+  border-radius: 6px;
+  background: #fffefa;
+  cursor: pointer;
+}
+
+.configurator .cfg-layout-cards > label:hover {
+  border-color: #8fa37c;
+}
+
+.configurator .cfg-layout-cards > label:has(input:checked) {
+  border-color: #718b60;
+  background: #edf2e6;
+  box-shadow: inset 0 0 0 1px #718b60;
+}
+
+.configurator .cfg-layout-cards input {
+  grid-column: 1;
+  grid-row: 1 / 3;
+}
+
+.configurator .cfg-layout-cards strong {
+  grid-column: 2;
+  font-size: 14px;
+  line-height: 1.45;
+  font-weight: 500;
+}
+
+.configurator .cfg-layout-cards p {
+  grid-column: 2;
+  color: var(--cfg-muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.configurator .cfg-summary {
+  margin: 18px 0;
+  padding: 16px 18px;
+  border: 1px solid var(--cfg-border);
+  border-radius: 7px;
+  background: #f1f3eb;
+}
+
+.configurator .cfg-summary h4 {
+  margin: 0 0 12px;
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.configurator .cfg-summary dl {
+  margin: 0;
+}
+
+.configurator .cfg-summary dl > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 20px;
+  padding: 9px 0;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.configurator .cfg-summary dl > div + div {
+  border-top: 1px solid #dbe1d2;
+}
+
+.configurator .cfg-summary dt {
+  flex: none;
+  max-width: 48%;
+  color: var(--cfg-muted);
+}
+
+.configurator .cfg-summary dd {
+  min-width: 0;
+  margin: 0;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+.configurator .cfg-review-list {
+  margin: 16px 0 20px;
+  padding-left: 20px;
+  color: var(--cfg-muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.configurator .cfg-review-list li + li {
+  margin-top: 7px;
+}
+
+.configurator .cfg-review-list li::marker {
+  color: #7b9367;
+}
+
+.configurator .cfg-save-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 20px 0 14px;
+}
+
+.configurator .cfg-save-actions .button {
+  min-height: 44px;
+  padding: 11px 12px;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.configurator .cfg-error,
+.configurator .cfg-success {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border: 1px solid #dfcbb4;
+  border-radius: 5px;
+  background: #faf0e5;
+  color: #875830;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.configurator .cfg-success {
+  border-color: #c5d5b8;
+  background: #edf4e7;
+  color: #46633b;
+}
+
+.configurator .cfg-error:empty,
+.configurator .cfg-success:empty,
+.configurator .cfg-live-message:empty {
+  display: none;
+}
+
+.configurator .cfg-replace-note {
+  margin: 15px 0;
+  padding-left: 12px;
+  border-left: 2px solid #b8c8a5;
+  color: var(--cfg-muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.configurator .cfg-replace-note:empty {
+  display: none;
+}
+
+.configurator .cfg-live-message.has-warning {
+  color: #8a612e;
+}
+
+.configurator .cfg-footer {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  min-height: 81px;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 16px 28px;
+  border-top: 1px solid var(--cfg-border);
+  background: #fbfaf6;
+  box-shadow: 0 -5px 18px #273c1c03;
+}
+
+.configurator .cfg-footer > .plain-button {
+  flex: none;
+  min-height: 44px;
+  padding: 10px 6px;
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.configurator .cfg-footer .button {
+  min-width: 98px;
+  min-height: 45px;
+  padding: 11px 18px;
+  gap: 18px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.configurator .cfg-footer .button:disabled {
+  opacity: .42;
+  transform: none;
+}
+
+.configurator .cfg-progress-note {
+  flex: 1;
+  color: var(--cfg-muted);
+  font-size: 12px;
+  line-height: 1.55;
+  text-align: center;
+}
+
+.configurator button:focus-visible,
+.configurator input:focus-visible,
+.configurator select:focus-visible,
+.configurator textarea:focus-visible,
+.configurator summary:focus-visible {
+  outline: 3px solid #8da475;
+  outline-offset: 3px;
+}
+
+@media (max-width: 1000px) and (min-width: 801px) {
+  .configurator .cfg-top { padding-inline: 23px; }
+  .configurator .cfg-stepper { padding-inline: 23px; gap: 12px; }
+  .configurator .cfg-stepper button { font-size: 12px; gap: 9px; }
+  .configurator .cfg-stepper button > span:first-child { width: 30px; height: 30px; font-size: 13px; }
+  .configurator .cfg-workspace { grid-template-columns: minmax(0, 1fr) minmax(330px, .94fr); }
+  .configurator .cfg-visual { padding: 20px 18px; }
+  .configurator .cfg-controls { padding: 23px 20px; }
+  .configurator .cfg-visual-toolbar { flex-wrap: wrap; }
+}
+
+@media (max-width: 800px) {
+  dialog.configurator {
+    width: calc(100% - 24px);
+    height: 94dvh;
+    border-radius: 11px;
+  }
+
+  .configurator .cfg-top {
+    gap: 14px;
+    padding: 18px 20px;
+  }
+
+  .configurator .cfg-top h2 { font-size: 30px; }
+  .configurator .cfg-top-actions { gap: 12px; }
+  .configurator .cfg-top-actions .plain-button { font-size: 11px; }
+  .configurator .cfg-top-actions .icon-button { width: 36px; height: 36px; }
+  .configurator .cfg-stepper { padding: 10px 20px; gap: 12px; }
+  .configurator .cfg-stepper button { min-height: 44px; gap: 8px; padding: 3px 0; font-size: 12px; }
+  .configurator .cfg-stepper button > span:first-child { width: 28px; height: 28px; font-size: 12px; }
+
+  .configurator .cfg-workspace {
+    display: block;
+    overflow: auto;
+    overscroll-behavior: contain;
+  }
+
+  .configurator .cfg-visual {
+    padding: 18px 20px;
+    overflow: visible;
+  }
+
+  .configurator .cfg-stage {
+    width: min(100%, 390px);
+  }
+
+  .configurator .cfg-visual-toolbar,
+  .configurator .cfg-caption,
+  .configurator .cfg-legend,
+  .configurator .cfg-live-message {
+    max-width: 550px;
+    margin-inline: auto;
+  }
+
+  .configurator .cfg-empty { min-height: 250px; }
+
+  .configurator .cfg-controls {
+    padding: 24px;
+    overflow: visible;
+    border-top: 1px solid var(--cfg-border);
+    border-left: 0;
+  }
+
+  .configurator .cfg-controls > .cfg-step {
+    max-width: 550px;
+    margin-inline: auto;
+  }
+
+  .configurator .cfg-footer {
+    min-height: 75px;
+    padding: 13px 20px;
+  }
+
+  .configurator .cfg-footer .button { min-width: 92px; }
+}
+
+@media (max-width: 480px) {
+  dialog.configurator {
+    width: calc(100% - 12px);
+    height: 96dvh;
+    max-height: 96dvh;
+    border-radius: 9px;
+  }
+
+  .configurator .cfg-top {
+    position: relative;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 15px 15px 12px;
+  }
+  .configurator .cfg-top > div:first-child { min-width: 0; padding-right: 34px; }
+  .configurator .cfg-top .eyebrow { font-size: 9px; margin-bottom: 5px; }
+  .configurator .cfg-top h2 { font-size: 29px; }
+  .configurator .cfg-top-actions { justify-content: space-between; gap: 15px; }
+  .configurator .cfg-top-actions .plain-button { min-height: 34px; font-size: 12px; line-height: 1.4; }
+  .configurator .cfg-top-actions .icon-button { position: absolute; top: 15px; right: 13px; width: 32px; height: 32px; font-size: 21px; }
+  .configurator .cfg-units { gap: 8px; font-size: 12px; }
+  .configurator .cfg-units select { min-width: 64px; min-height: 34px; padding: 5px 8px; }
+
+  .configurator .cfg-stepper { padding: 9px 8px; gap: 6px; }
+  .configurator .cfg-stepper button {
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 7px;
+    min-height: 68px;
+    padding: 2px 0;
+    font-size: clamp(10px, 2.8vw, 11px);
+    line-height: 1.35;
+    text-align: center;
+    overflow-wrap: anywhere;
+  }
+  .configurator .cfg-stepper button > span:first-child { width: 27px; height: 27px; font-size: 12px; }
+
+  .configurator .cfg-visual { padding: 14px; }
+  .configurator .cfg-visual-toolbar { gap: 8px; margin-bottom: 10px; }
+  .configurator .cfg-badge { font-size: 10px; }
+  .configurator .cfg-view-toggle { gap: 1px; padding: 2px; }
+  .configurator .cfg-view-toggle button { min-height: 30px; padding: 5px 8px; font-size: 10px; }
+  .configurator .cfg-stage { width: min(100%, 280px); }
+  .configurator .cfg-empty { min-height: 235px; padding: 22px; }
+  .configurator .cfg-empty strong, .configurator .cfg-empty h3 { font-size: 24px; }
+  .configurator .cfg-empty p { font-size: 12px; }
+  .configurator .cfg-caption { margin-top: 9px; font-size: 11px; line-height: 1.6; }
+  .configurator .cfg-legend { gap: 6px 12px; margin-top: 10px; padding-top: 10px; }
+  .configurator .cfg-legend > span { font-size: 10px; gap: 5px; }
+  .configurator .cfg-live-message { font-size: 11px; margin-top: 8px; }
+
+  .configurator .cfg-controls { padding: 23px 18px; }
+  .configurator .cfg-step-heading h3 { font-size: 27px; }
+  .configurator .cfg-help { font-size: 13px; margin-bottom: 17px; }
+  .configurator .cfg-photo-options { gap: 8px; }
+  .configurator .cfg-photo-options button { padding: 10px; font-size: 12px; }
+  .configurator .cfg-upload { padding: 15px; }
+  .configurator .cfg-dimension-row { gap: 8px 12px; }
+  .configurator .cfg-status { max-width: 113px; padding: 5px 7px; font-size: 10px; }
+  .configurator .cfg-summary { padding: 13px 14px; }
+  .configurator .cfg-summary dl > div { gap: 12px; }
+  .configurator .cfg-save-actions { grid-template-columns: 1fr; }
+  .configurator .cfg-save-actions .button { min-height: 44px; }
+
+  .configurator .cfg-footer { display: grid; grid-template-columns: auto 1fr; gap: 6px 12px; min-height: 74px; padding: 9px 14px; }
+  .configurator .cfg-footer #cfg-back { grid-column: 1; grid-row: 1; justify-self: start; }
+  .configurator .cfg-footer #cfg-next { grid-column: 2; grid-row: 1; justify-self: end; }
+  .configurator .cfg-footer .button { min-width: 76px; min-height: 44px; padding: 10px 12px; gap: 10px; font-size: 12px; }
+  .configurator .cfg-progress-note { grid-column: 1 / -1; grid-row: 2; font-size: 10px; line-height: 1.5; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .configurator *, .configurator *::before, .configurator *::after {
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
+}
+
+/* Keep the complete photo in view while the controls scroll independently. */
+@media(min-width:801px){.configurator .cfg-stage:has(#cfg-photo:not([hidden])){width:fit-content;max-width:100%}.configurator #cfg-photo{width:auto;height:auto;max-width:100%;max-height:calc(min(880px, 94dvh) - 365px)}.configurator .cfg-visual-toolbar{flex-wrap:wrap}.configurator .cfg-caption,.configurator .cfg-live-message{font-size:11px;line-height:1.55}.configurator .cfg-legend{margin-top:10px;padding-top:10px}}
+.configurator .cfg-live-message.has-warning{color:#855424;background:#faf0e5;border:1px solid #dfcbb4;padding:10px 12px;border-radius:4px}
