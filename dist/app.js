@@ -80,6 +80,7 @@
   let currentProject = {audience: 'Residential', room: '', space: ''};
   let plannerInitialized = false;
   let currentBrief = null;
+  let photoEstimate = null;
   let unit = 'in';
   let previouslyFocused = null;
 
@@ -122,6 +123,12 @@
     for (const name of measurementNames) {
       const number = Number(value[name]);
       result[name] = value[name] !== '' && Number.isFinite(number) && number > 0 ? String(number) : '';
+    }
+    const source = value.photoEstimate;
+    if (source && ['in', 'cm'].includes(source.referenceUnit) && Number.isFinite(Number(source.referenceLength)) && Number(source.referenceLength) > 0) {
+      const width = source.width === true && result.width !== '';
+      const height = source.height === true && result.height !== '';
+      if (width || height) result.photoEstimate = {width, height, referenceLength: Number(source.referenceLength), referenceUnit: source.referenceUnit};
     }
     return result;
   }
@@ -246,6 +253,11 @@
     input.removeAttribute('max');
     input.addEventListener('input', () => {
       measurementOrigins.set(name, {value: input.value, unit});
+      if (photoEstimate && ['width', 'height'].includes(name)) {
+        photoEstimate = {...photoEstimate, [name]: false};
+        if (!photoEstimate.width && !photoEstimate.height) photoEstimate = null;
+        renderPhotoEstimate();
+      }
       checkMeasurement(input);
     });
   });
@@ -279,7 +291,8 @@
       depth: form.elements.depth.value,
       height: form.elements.height.value,
       finish: form.elements.finish.value,
-      notes: form.elements.notes.value.trim()
+      notes: form.elements.notes.value.trim(),
+      ...(photoEstimate ? {photoEstimate: {...photoEstimate}} : {})
     };
   }
   function updatePrompts() {
@@ -324,6 +337,8 @@
     const brief = matching || carried || emptyBrief(project);
     currentProject = project;
     currentBrief = null;
+    photoEstimate = brief.photoEstimate ? {...brief.photoEstimate} : null;
+    renderPhotoEstimate();
     updateProjectFields();
     for (const name of ['width', 'depth', 'height', 'finish', 'notes']) form.elements[name].value = brief[name];
     measurementOrigins.clear();
@@ -339,6 +354,33 @@
     updatePrompts();
     plannerInitialized = true;
   }
+  function photoSourceText(source) {
+    if (!source) return 'Entered manually';
+    const names = [source.width && 'Width', source.height && 'Height'].filter(Boolean).join(' and ');
+    return `${names} estimated from a photo using a ${source.referenceLength} ${source.referenceUnit} reference. Verify with a tape measure; depth is entered manually.`;
+  }
+  function renderPhotoEstimate() {
+    const note = $('#photo-estimate-note');
+    note.hidden = !photoEstimate;
+    note.textContent = photoEstimate ? photoSourceText(photoEstimate) : '';
+  }
+  $('#photo-measure-button').addEventListener('click', () => {
+    window.SpaceMaxPhotoMeasure.open({
+      unit,
+      hasMeasurements: Boolean(form.elements.width.value || form.elements.height.value),
+      onApply(estimate) {
+        // Unit changes preserve the physical depth already entered by the visitor.
+        setUnit(estimate.unit, true);
+        for (const name of ['width', 'height']) {
+          form.elements[name].value = String(estimate[name]);
+          measurementOrigins.set(name, {value: String(estimate[name]), unit});
+          checkMeasurement(form.elements[name]);
+        }
+        photoEstimate = {width: true, height: true, referenceLength: estimate.referenceLength, referenceUnit: estimate.unit};
+        renderPhotoEstimate();
+      }
+    });
+  });
   form.elements.space.addEventListener('change', () => switchProject({...currentProject, space: form.elements.space.value}));
   form.elements.audience.addEventListener('change', () => {
     const audience = form.elements.audience.value;
@@ -382,7 +424,7 @@
     switchProject({...browse, space});
     openDialog(planner, menu.contains(button) ? menuButton : button);
   }));
-  $$('dialog').forEach(dialog => {
+  $$('dialog:not(#photo-measure-dialog)').forEach(dialog => {
     $('.dialog-close', dialog).addEventListener('click', () => dialog.close());
     dialog.addEventListener('click', event => {
       if (event.target !== dialog) return;
@@ -390,7 +432,7 @@
       if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) dialog.close();
     });
     dialog.addEventListener('close', () => {
-      document.body.classList.remove('modal-open');
+      document.body.classList.toggle('modal-open', Boolean($('dialog[open]')));
       if (previouslyFocused?.isConnected) previouslyFocused.focus();
     });
   });
@@ -419,6 +461,7 @@
       [currentBrief.audience === 'Residential' ? 'Room' : 'Area', roomDescription(currentBrief)],
       ['The solution', currentBrief.space],
       [config.dimensionLabel, dimensions(currentBrief)],
+      ['Measurement source', photoSourceText(currentBrief.photoEstimate)],
       ['Style inspiration', currentBrief.finish],
       ['Things to consider', currentBrief.notes || config.help]
     ];
@@ -445,7 +488,7 @@
     if (!currentBrief) return;
     const brief = currentBrief;
     const config = configurations[brief.space];
-    const text = `SPACEMAX — MY SPACE DETAILS\nCustom-fit organization for my space.\n\nPROJECT\n${brief.audience}\n\n${brief.audience === 'Residential' ? 'ROOM' : 'AREA'}\n${roomDescription(brief)}\n\nSOLUTION\n${brief.space}\n\n${config.dimensionLabel.toUpperCase()}\n${dimensions(brief)}\n\nSTYLE INSPIRATION\n${brief.finish}\n\nTHINGS TO CONSIDER\n${brief.notes || 'To add'}\n\nBEFORE A FINAL DESIGN\n${config.checklist.map(item => '• ' + item).join('\n')}\n• Mark approximate measurements and confirm them before a final design.\n• Take photos of the space for a later design discussion.\n\nThese are measurements and notes, not a final design, quote, or order. Materials, pricing, installation requirements, and fit need review. Nothing has been submitted to SpaceMax.\n`;
+    const text = `SPACEMAX — MY SPACE DETAILS\nCustom-fit organization for my space.\n\nPROJECT\n${brief.audience}\n\n${brief.audience === 'Residential' ? 'ROOM' : 'AREA'}\n${roomDescription(brief)}\n\nSOLUTION\n${brief.space}\n\n${config.dimensionLabel.toUpperCase()}\n${dimensions(brief)}\n\nMEASUREMENT SOURCE\n${photoSourceText(brief.photoEstimate)}\n\nSTYLE INSPIRATION\n${brief.finish}\n\nTHINGS TO CONSIDER\n${brief.notes || 'To add'}\n\nBEFORE A FINAL DESIGN\n${config.checklist.map(item => '• ' + item).join('\n')}\n• Mark approximate measurements and confirm them before a final design.\n• Take photos of the space for a later design discussion.\n\nThese are measurements and notes, not a final design, quote, or order. Materials, pricing, installation requirements, and fit need review. Nothing has been submitted to SpaceMax.\n`;
     const url = URL.createObjectURL(new Blob([text], {type: 'text/plain;charset=utf-8'}));
     const slug = [brief.audience, brief.room || 'unspecified', brief.space].join('-').toLowerCase().replace(/[^a-z0-9]+/g, '-');
     const link = document.createElement('a');
@@ -471,6 +514,8 @@
     drafts.clear();
     draftOrigins.clear();
     currentBrief = null;
+    photoEstimate = null;
+    renderPhotoEstimate();
     plannerInitialized = false;
     form.reset();
     measurementOrigins.clear();
@@ -557,4 +602,12 @@
   renderBrowse();
   switchProject({...browse, space: ''});
   showWalkthroughStep(0);
+  function openPlannerFromLink() {
+    if (location.hash === '#planner' && !planner.open) {
+      $('[data-planner]').click();
+      history.replaceState(null, '', location.pathname + location.search);
+    }
+  }
+  window.addEventListener('hashchange', openPlannerFromLink);
+  openPlannerFromLink();
 })();

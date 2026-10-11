@@ -36,3 +36,9 @@ The site now offers two browse paths. Residential rooms are Bathroom, Kitchen, L
 ## Supplied bathroom walkthrough
 
 The four-step design walkthrough uses the owner's starting photo, measurement concept screen, configuration concept screen, and an edited outcome reference. Steps have keyboard-accessible navigation and a full-image viewer. Example measurements never populate the visitor's manual planner. See `BATHROOM-WALKTHROUGH.md` and `BATHROOM-FINAL-ASSET.md` for source mapping, the cabinet-only edit constraint, and provenance.
+
+## Photo-assisted measurements and customization gallery
+
+The local photo tool accepts JPEG/PNG/WebP. Visitors provide one known reference length, mark its endpoints and an axis-aligned target rectangle in the same plane, then review width/height estimates. It does not perform image recognition or infer absolute scale/depth. Photos are discarded when the tool closes; only reviewed dimension values and their provenance can be saved. Changing a field manually clears its estimate label. Unit conversion preserves existing depth. See `PHOTO-MEASURE.md` for geometry, limits, and module integration.
+
+`customizations.html` adds filterable before/after examples with enlarged views. The supplied bathroom design and generated residential cabinet are explicitly identified as concepts. No customer testimonials, influencer endorsements, builder names, or adoption statistics are asserted without confirmation. See `GALLERY.md`.

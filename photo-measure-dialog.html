@@ -1,0 +1,35 @@
+<dialog id="photo-measure-dialog" aria-labelledby="pm-title" aria-describedby="pm-intro">
+  <button type="button" class="pm-close" data-pm-close aria-label="Close photo measurement">×</button>
+  <p class="eyebrow">Photo-assisted measurements</p>
+  <h2 id="pm-title">A photo. A reference.<br><em>A starting estimate.</em></h2>
+  <p id="pm-intro" class="pm-intro">Use a straight-on photo, one known length, and a few marks to estimate width and height for your planner.</p>
+  <p id="pm-replacement" class="pm-notice" hidden>Using these estimates will replace the planner’s current width and height. Depth stays manual.</p>
+  <div class="pm-upload-row">
+    <label class="pm-file-label" for="pm-file">Choose a photo<input id="pm-file" type="file" accept="image/*"></label>
+    <label class="pm-file-label pm-camera-label" for="pm-camera">Take a photo<input id="pm-camera" type="file" accept="image/*" capture="environment"></label>
+  </div>
+  <p class="pm-small">JPEG, PNG, or WebP · Up to 15 MB · Your photo stays in this browser and is cleared when you close this window.</p>
+  <p id="pm-message" class="pm-message" role="status"></p>
+  <div id="pm-workspace" hidden>
+    <p class="pm-guidance"><strong>Use a straight-on photo.</strong> The reference and the target must be in the same flat plane. Keep the target’s edges horizontal and vertical in the image. Angled views and objects at different depths will give unreliable estimates.</p>
+    <div class="pm-layout">
+      <div class="pm-photo-column">
+        <div class="pm-photo-shell"><div id="pm-surface" class="pm-photo-frame" role="button" tabindex="0" aria-label="Place reference start on the photo" aria-describedby="pm-keyboard-help"><img id="pm-image" alt="Your selected photo for marking a known reference and a rectangular storage area" draggable="false"><svg id="pm-overlay" aria-hidden="true" preserveAspectRatio="none"></svg></div></div>
+        <p id="pm-filename" class="pm-filename"></p>
+        <p id="pm-keyboard-help" class="pm-small">Click or tap the image to place the selected point. With the image focused, use arrow keys to move the crosshair, Shift + arrow for fine movement, and Enter or Space to place it. You can also enter point coordinates below.</p>
+        <div class="pm-secondary-actions"><button id="pm-reset-marks" type="button" class="text-link">Reset marks</button><button id="pm-replace-photo" type="button" class="text-link">Clear photo</button></div>
+      </div>
+      <div class="pm-controls">
+        <h3>1. Set your known reference</h3>
+        <p class="pm-small">Use a clearly visible edge or object that you have measured. Mark its two endpoints in the photo.</p>
+        <div class="pm-reference-row"><label for="pm-reference-length">Known length<input id="pm-reference-length" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 30"></label><label for="pm-unit">Units<select id="pm-unit"><option value="in">Inches</option><option value="cm">Centimeters</option></select></label></div>
+        <h3>2. Mark the photo</h3>
+        <fieldset class="pm-point-options"><legend>Select a point to place or adjust</legend><label><input type="radio" name="pm-point" value="referenceStart" checked><span class="pm-point-number pm-reference-point">1</span>Reference start</label><label><input type="radio" name="pm-point" value="referenceEnd"><span class="pm-point-number pm-reference-point">2</span>Reference end</label><label><input type="radio" name="pm-point" value="targetStart"><span class="pm-point-number">3</span>Target first corner</label><label><input type="radio" name="pm-point" value="targetEnd"><span class="pm-point-number">4</span>Target opposite corner</label></fieldset>
+        <p class="pm-small">The two target corners form the rectangle whose width and height you want to estimate.</p>
+        <details class="pm-coordinate-panel"><summary>Place points by coordinates</summary><p id="pm-mode-label" class="pm-small">Mark 1: reference start</p><div class="pm-coordinate-row"><label for="pm-x">From left (%)<input id="pm-x" type="number" min="0" max="100" step="any" value="50"></label><label for="pm-y">From top (%)<input id="pm-y" type="number" min="0" max="100" step="any" value="50"></label></div><button id="pm-place-point" type="button" class="pm-secondary-button">Place selected point</button></details>
+        <section class="pm-review" aria-labelledby="pm-review-title"><h3 id="pm-review-title">3. Review your estimates</h3><dl><div><dt>Estimated width</dt><dd id="pm-width">—</dd></div><div><dt>Estimated height</dt><dd id="pm-height">—</dd></div></dl><p id="pm-result-message" class="pm-small" role="status"></p><p class="pm-small"><strong>Depth cannot be estimated from this view.</strong> Measure depth separately. Photo estimates need checking with a tape measure before any final design or order.</p></section>
+      </div>
+    </div>
+  </div>
+  <div class="pm-footer"><button id="pm-apply" type="button" class="button" disabled>Use estimated dimensions</button><button id="pm-cancel" type="button" class="text-link">Cancel</button></div>
+</dialog>
