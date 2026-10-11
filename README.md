@@ -6,7 +6,9 @@ A responsive custom-storage brand site and interactive planning prototype, focus
 
 Run `python3 -m http.server 5174 --bind 127.0.0.1 --directory dist` from this directory, then open `http://127.0.0.1:5174`.
 
-## Four-step space studio
+## Four-step purchase journey
+
+The customer-facing steps are **Add your space → Review measurements → Preview → Choose layout**, matching the supplied purchasing flow. The final action saves the chosen layout locally; pricing, payment, and order submission remain unconnected.
 
 1. Add a local JPEG, PNG, or WebP photo, or load the prepared sink example.
 2. Enter width, height, and depth; distinguish demo, entered, and user-confirmed measurements. Uploaded spaces require manual depth confirmation. Position the photo frame with handles or numeric fields.
