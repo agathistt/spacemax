@@ -6,6 +6,23 @@
   const privacy = $('#privacy-dialog');
   const form = $('#space-form');
   const storageKey = 'spacemax-space-brief-v1';
+  const comparisonStates = {
+    before: {src: 'assets/under-sink-before.jpg', alt: 'Illustrative cabinet without fitted shelves: pipes occupy the middle, essentials cluster on the floor, and the upper space is unused', title: 'Space above. Clutter below.', detail: 'One cabinet floor has to hold everything.'},
+    after: {src: 'assets/under-sink-concept.jpg', alt: 'The same cabinet illustrated with custom-fit shelves around the plumbing, towels and bottles on separate levels, and a discreet pipe surround', title: 'Same cabinet. A more useful layout.', detail: 'Shelves create places for essentials around the pipes.'}
+  };
+  $$('[data-compare]').forEach(button => button.addEventListener('click', () => {
+    const state = comparisonStates[button.dataset.compare];
+    const image = $('#comparison-image');
+    image.src = state.src;
+    image.alt = state.alt;
+    $('#comparison-caption strong').textContent = state.title;
+    $('#comparison-caption span').textContent = state.detail;
+    $$('[data-compare]').forEach(option => {
+      const selected = option === button;
+      option.classList.toggle('active', selected);
+      option.setAttribute('aria-pressed', String(selected));
+    });
+  }));
   let unit = 'in';
   let currentBrief = null;
   let previouslyFocused = null;
@@ -132,7 +149,7 @@
       list.append(term, description);
     }
     $('#brief-summary').replaceChildren(list);
-    $('#save-status').textContent = stored ? 'Saved in this browser. Download a copy to keep.' : 'Browser storage is unavailable. Download your brief to keep a copy.';
+    $('#save-status').textContent = stored ? 'Saved in this browser. Download a copy to keep.' : 'Browser storage is unavailable. Download your cabinet details to keep a copy.';
     $('#planner-input').hidden = true;
     $('#planner-result').hidden = false;
     planner.scrollTop = 0;
@@ -142,14 +159,14 @@
   $('#download-brief').addEventListener('click', () => {
     if (!currentBrief) return;
     const brief = currentBrief;
-    const text = `SPACEMAX — MY SPACE BRIEF\nMore room. Less on your mind.\n\nSPACE\n${brief.space}\n\nINSIDE DIMENSIONS\n${dimensions(brief)}\n\nSTYLE INSPIRATION\n${brief.finish}\n\nTHINGS TO CONSIDER\n${brief.notes || 'To add'}\n\nBEFORE A FINAL DESIGN\n• Confirm all measurements and note whether these are approximate.\n• Measure pipes, shutoff valves, door hinges, and other obstacles.\n• Keep plumbing and maintenance access clear.\n• List what you want to store, including the tallest items.\n• Photograph the space before discussing a design.\n\nThis is a planning brief, not a final design, quote, or order. Materials, pricing, installation requirements, and fit need review. Nothing has been submitted to SpaceMax.\n`;
+    const text = `SPACEMAX — MY CABINET DETAILS\nMore room. Less on your mind.\n\nSPACE\n${brief.space}\n\nINSIDE DIMENSIONS\n${dimensions(brief)}\n\nSTYLE INSPIRATION\n${brief.finish}\n\nTHINGS TO CONSIDER\n${brief.notes || 'To add'}\n\nBEFORE A FINAL DESIGN\n• Confirm all measurements and note whether these are approximate.\n• Measure pipes, shutoff valves, door hinges, and other obstacles.\n• Keep plumbing and maintenance access clear.\n• List what you want to store, including the tallest items.\n• Photograph the space before discussing a design.\n\nThese are cabinet measurements and notes, not a final design, quote, or order. Materials, pricing, installation requirements, and fit need review. Nothing has been submitted to SpaceMax.\n`;
     const url = URL.createObjectURL(new Blob([text], {type:'text/plain;charset=utf-8'}));
-    const link = document.createElement('a'); link.href = url; link.download = 'spacemax-my-space-brief.txt'; document.body.append(link); link.click(); link.remove();
+    const link = document.createElement('a'); link.href = url; link.download = 'spacemax-my-cabinet-details.txt'; document.body.append(link); link.click(); link.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   });
   $('#privacy-button').addEventListener('click', () => { $('#clear-status').textContent = ''; openDialog(privacy); });
   $('#clear-brief').addEventListener('click', () => {
-    try { localStorage.removeItem(storageKey); $('#clear-status').textContent = 'Your saved brief has been removed from this browser.'; }
+    try { localStorage.removeItem(storageKey); $('#clear-status').textContent = 'Your saved cabinet details have been removed from this browser.'; }
     catch { $('#clear-status').textContent = 'Browser storage could not be accessed. You can also clear saved data in your browser settings.'; }
     currentBrief = null; form.reset(); measurementOrigins.clear(); measurementNames.forEach(name => checkMeasurement(form.elements[name])); setUnit('in'); $('#brief-summary').replaceChildren(); showInput();
   });
