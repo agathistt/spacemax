@@ -1,5 +1,12 @@
 # Image asset provenance
 
+## User-supplied before and after
+
+- Before: `dist/assets/under-sink-before.png`, copied unchanged from `codex-clipboard-5d271ccf-55ea-4bc7-89cf-2d1895bb17b2.png` (1254 × 1254).
+- After: `dist/assets/under-sink-after-preview.png`, copied unchanged from `codex-clipboard-ed0a6094-847b-4883-87f5-f887b06ecc86.png` (1536 × 1024).
+- Supplied and identified as before/after by the user. The after asset is a design-preview screenshot, not a verified installation photo.
+- The comparison section frames the relevant photo region using CSS. Selecting either image opens the full original. No image pixels were modified, and no new imagery was generated for this update.
+
 ## under-sink-concept.png
 
 - Original master: `source-assets/under-sink-concept.png`

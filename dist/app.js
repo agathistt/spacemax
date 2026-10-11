@@ -135,6 +135,21 @@
   $('#menu-toggle').addEventListener('click', () => { const open = $('#mobile-nav').hidden; $('#mobile-nav').hidden = !open; $('#menu-toggle').setAttribute('aria-expanded', String(open)); $('#menu-toggle').setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation'); });
   $$('#mobile-nav a').forEach(link => link.addEventListener('click', () => { $('#mobile-nav').hidden = true; $('#menu-toggle').setAttribute('aria-expanded', 'false'); $('#menu-toggle').setAttribute('aria-label','Open navigation'); }));
   $('#privacy-open').addEventListener('click', () => openDialog($('#privacy')));
+  const photoDetails = {
+    before: {src:'assets/under-sink-before.png', title:'Before — the existing space', alt:'Original before photo: supplies on the floor beneath a wall-mounted sink with exposed pipes', caption:'The original before photo.', width:1254, height:1254},
+    after: {src:'assets/under-sink-after-preview.png', title:'After — the design preview', alt:'Full supplied design preview showing fitted shelving and drawers around existing sink plumbing, alongside configuration controls', caption:'The supplied after-design preview. This is an illustration of the proposed configuration; the controls shown are part of the image.', width:1536, height:1024}
+  };
+  $$('[data-photo]').forEach(button => button.addEventListener('click', () => {
+    const photo = photoDetails[button.dataset.photo];
+    const image = $('#photo-viewer-image');
+    image.src = photo.src;
+    image.alt = photo.alt;
+    image.width = photo.width;
+    image.height = photo.height;
+    $('#photo-viewer-title').textContent = photo.title;
+    $('#photo-viewer-caption').textContent = photo.caption;
+    openDialog($('#photo-viewer'));
+  }));
   document.addEventListener('keydown', event => { if (event.key === 'Escape' && !$('#mobile-nav').hidden) { $('#mobile-nav').hidden = true; $('#menu-toggle').setAttribute('aria-expanded','false'); $('#menu-toggle').setAttribute('aria-label','Open navigation'); $('#menu-toggle').focus(); } });
   $('#year').textContent = new Date().getFullYear();
   syncSavedState();
