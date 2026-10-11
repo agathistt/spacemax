@@ -28,3 +28,7 @@ The source does not load analytics or a payment service. Fonts are loaded from G
 The under-sink image is AI-generated concept imagery, created with the built-in Imagegen tool. Its prompt and asset details are recorded in `ASSETS.md`. The matching before image is documented in `BEFORE-ASSET.md`.
 
 Additional illustrative product images and exact generation prompts are documented in `CABLE-ASSET.md`, `DRAWER-ASSET.md`, and `TOILET-ASSET.md`. These are product concepts, not confirmed manufactured SKUs.
+
+## Residential and commercial browsing
+
+The site now offers two browse paths. Residential rooms are Bathroom, Kitchen, Living room, and Bedroom. Commercial areas are Offices & workstations, Staff kitchens, Restrooms, and Guest rooms. Room selection filters the existing product range; commercial restroom recommendations focus on storage. The planner records the audience and room/area, keeping dimensions separate for each audience + room + solution combination. This does not assert commercial certifications, installation services, or confirmed site suitability.
